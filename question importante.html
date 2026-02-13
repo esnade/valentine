@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)file:///C:/Users/MG/Desktop/Valentine.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question importante</title>
+
+  <style>
+    :root{
+      --bg1:#ffe7ef;
+      --bg2:#ffd6e5;
+      --card:#ffffffcc;
+      --text:#1f1f1f;
+      --muted:#6b7280;
+      --border: rgba(0,0,0,.08);
+      --shadow: 0 20px 60px rgba(0,0,0,.10);
+
+      --green:#16a34a;
+      --green2:#22c55e;
+      --red:#dc2626;
+      --red2:#ef4444;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, var(--bg1), transparent 55%),
+        radial-gradient(circle at 80% 0%, #ffd1dc, transparent 55%),
+        radial-gradient(circle at 80% 80%, #ffb6c1, transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      padding: 24px;
+    }
+
+    .card{
+      width:min(560px, 94vw);
+      padding: 26px 22px;
+      border-radius: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      text-align:center;
+    }
+
+    .gifWrap{
+      width: 240px;
+      height: 240px;
+      margin: 4px auto 14px;
+      border-radius: 0;
+      overflow:hidden;
+      border: 1px solid var(--border);
+      background: white;
+      box-shadow: 0 10px 25px rgba(0,0,0,.06);
+    }
+
+    .gifWrap img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transition: opacity .2s ease;
+    }
+
+    h1{
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing:-.02em;
+    }
+
+    p{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .buttons{
+      margin-top: 10px;
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      flex-wrap:wrap;
+      position:relative;
+      align-items: center; /* Pour aligner le message avec le bouton */
+    }
+
+    button{
+      padding: 12px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 0;
+      border: 1px solid var(--border);
+      font-weight: 800;
+      user-select:none;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button.yes{
+      border-color: rgba(34,197,94,.35);
+      background: linear-gradient(180deg, var(--green2), var(--green));
+      color: white;
+      transform: scale(1);
+      z-index: 2;
+      position: relative;
+    }
+
+    button.no{
+      border-color: rgba(239,68,68,.35);
+      background: linear-gradient(180deg, var(--red2), var(--red));
+      color: white;
+      transform: scale(1);
+      z-index: 1;
+      position: relative;
+    }
+
+    #noMessage{
+      font-size: 12px;
+      color: black;
+      font-weight: 500;
+      margin-left: 8px; /* petit espace à côté du bouton Non */
+      display: inline-block;
+      max-width: 180px;
+    }
+
+    .badge{
+      display:inline-block;
+      margin-top: 12px;
+      padding: 7px 10px;
+      border-radius: 0;
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .small{
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .finalMessage{
+      font-size: 24px;
+      font-weight: 700;
+      margin-top: 20px;
+      color: var(--green);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+  
+    <div class="gifWrap">
+      <img id="mainGif" alt="gif" src="./question importante_files/mochi-love-you.gif" style="opacity: 1;">
+    </div>
+
+    <h1 id="title">Veux-tu être ma valentine Maë Lynn ?</h1>
+    <p id="subtitle"></p>
+
+    <div class="buttons"> 
+      <button id="yesBtn" class="yes">Oui</button>
+      <button id="noBtn" class="no">Non</button>
+      <span id="noMessage"></span> <!-- Message à côté du bouton Non -->
+    </div>
+
+    <div class="badge" id="status"></div>
+    <div class="small"></div>
+
+    <div id="finalMessage" class="finalMessage" style="display:none;"></div>
+
+    <!-- Petit GIF en haut à droite -->
+    <img src="./question importante_files/cat-tongue-shake-cat-tongue.gif" alt="Petit GIF" style="position: fixed; top: 10px; right: 10px; width: 60px; height: 60px; z-index: 1000;">
+  </main>
+
+  <script>
+    const mainGif = document.getElementById('mainGif');
+    const title = document.getElementById('title');
+    const subtitle = document.getElementById('subtitle');
+    const status = document.getElementById('status');
+    const finalMessage = document.getElementById('finalMessage');
+    const noMessage = document.getElementById('noMessage');
+
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+
+    const GIFS = {
+      start: "https://media.tenor.com/AQ8I3RASlLcAAAAi/mochi-love-you.gif",
+      yes: "https://media1.tenor.com/m/o_5RQarGvJ0AAAAd/kiss.gif",
+      no: [
+        "https://media1.tenor.com/m/KFiUJSB2ndcAAAAC/cute-cat-cat.gif",
+        "https://media1.tenor.com/m/O4TFmBT4OwYAAAAC/sad-sad-cat.gif",
+        "https://media.tenor.com/c6nXyQmertAAAAAi/the-voices.gif"
+      ]
+    };
+
+    let noCount = 0;
+
+    setGif(GIFS.start);
+
+    function setGif(url){
+      mainGif.style.opacity = 0;
+      setTimeout(() => {
+        mainGif.src = url;
+        mainGif.style.opacity = 1;
+      }, 100);
+    }
+
+    yesBtn.addEventListener('click', () => {
+      setGif(GIFS.yes);
+      title.style.display = 'none';
+      subtitle.style.display = 'none';
+      yesBtn.style.display = 'none';
+      noBtn.style.display = 'none';
+      status.style.display = 'none';
+      noMessage.style.display = 'none';
+
+      finalMessage.textContent = "Yaaay je t'aime";
+      finalMessage.style.display = 'block';
+    });
+
+    noBtn.addEventListener('click', () => {
+      noCount++;
+      const gifIndex = Math.min(noCount-1, GIFS.no.length-1);
+      setGif(GIFS.no[gifIndex]);
+
+      // Le Oui grandit et finit par cacher le Non
+      const yesScale = 1 + noCount * 0.8;
+      yesBtn.style.transform = `scale(${yesScale})`;
+      if(yesScale >= 3){
+        noBtn.style.opacity = 0;
+        noBtn.disabled = true;
+        noBtn.style.cursor = 'default';
+      }
+
+      // Le Non rétrécit très rapidement
+      const noScale = Math.max(0.1, 1 - noCount * 0.3);
+      noBtn.style.transform = `scale(${noScale})`;
+
+      // Affiche un petit message aléatoire à côté du bouton Non
+      const messages = [
+        "Nuh uh",
+        "Refais!!!",
+        "Hmmmmm..",
+      ];
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      noMessage.textContent = messages[randomIndex];
+    });
+  </script>
+
+
+</body></html>
